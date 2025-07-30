@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react';
+import useTodos from './hooks/useTodos';
+import TodoForm from './components/TodoForm';
+import TodoList from './components/TodoList';
+import ErrorBoundary from './components/ErrorBoundary';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => {
+	const [newTodo, setNewTodo] = useState('');
+	const { todos, loading, error, addTodo, toggleTodo, removeTodo } = useTodos();
+
+	const handleAdd = async (e) => {
+		e.preventDefault();
+		if (!newTodo.trim()) return;
+		await addTodo(newTodo);
+		setNewTodo('');
+	};
+
+	return (
+		<ErrorBoundary>
+			<div style={{ padding: 20, fontFamily: 'sans-serif' }}>
+				<h1>Todo App</h1>
+
+				<TodoForm newTodo={newTodo} setNewTodo={setNewTodo} onAdd={handleAdd} />
+
+				{loading ? (
+					<p>Loading tasks...</p>
+				) : (
+					<TodoList todos={todos} onToggle={toggleTodo} onDelete={removeTodo} />
+				)}
+				{error && <p style={{ color: 'red' }}>Error: {error.message}</p>}
+			</div>
+		</ErrorBoundary>
+	);
+};
 
 export default App;

@@ -68,3 +68,29 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+# No Auth use
+
+to Allow no Auth users we had to change the database policy to allow this. These policies have been created
+
+CREATE POLICY "Allow insert for everyone"
+ON todos
+FOR INSERT
+WITH CHECK (true);
+
+CREATE POLICY "Allow select for everyone"
+ON todos
+FOR SELECT
+USING (true);
+
+CREATE POLICY "Allow update for everyone"
+ON todos
+FOR UPDATE
+USING (true)
+WITH CHECK (true);
+
+CREATE POLICY "Allow delete for everyone"
+ON todos
+FOR DELETE
+USING (true);

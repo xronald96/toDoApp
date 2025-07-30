@@ -35,7 +35,7 @@ const useTodos = () => {
 	const toggleTodo = async (id, done) => {
 		try {
 			await updateTodoDone(id, done);
-			setTodos(todos.map((t) => (t.id === id ? { ...t, done: !done } : t)));
+			setTodos(todos.map((task) => (task.id === id ? { ...task, done: !done } : task)));
 		} catch (err) {
 			setError(err);
 		}
